@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-(*n&dhalp*87zz)l0c69yax6fxyt@(r@%mxvqif230)_!+wog9
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost',
+    '127.0.0.1',]
 
 
 # Application definition
@@ -141,3 +142,4 @@ EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = BASE_DIR / 'sent_emails'
 MEDIA_ROOT = BASE_DIR / 'media'  
 LOGIN_URL = 'login' 
+CSRF_FAILURE_VIEW = 'pages.views.csrf_failure' 

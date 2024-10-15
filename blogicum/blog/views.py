@@ -131,6 +131,7 @@ class PostUpdateView(UpdateView,LoginRequiredMixin):
         if instance.author != request.user:
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
+    
 
 
 
