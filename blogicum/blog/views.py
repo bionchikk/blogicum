@@ -7,9 +7,11 @@ from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from blog.models import Post,Category,Location
 from django.views.generic import ListView,CreateView,UpdateView,DeleteView,DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import PostForm,UserEditForm
 from django.urls import reverse_lazy,reverse
 from .forms import PostForm
+from django.core.exceptions import PermissionDenied
 
 
 
@@ -92,7 +94,7 @@ def category_posts(request, category_slug):
 
 
 
-class PostCreateView(CreateView):
+class PostCreateView(CreateView,LoginRequiredMixin):
     model = Post
     form_class = PostForm
   
@@ -108,15 +110,27 @@ class PostCreateView(CreateView):
 
 
 
-class PostDeleteView(DeleteView):
+class PostDeleteView(DeleteView,LoginRequiredMixin):
     model = Post
     success_url= reverse_lazy('blog:index')
 
+    def dispatch(self, request, *args, **kwargs):
+        instance = get_object_or_404(Post,pk = kwargs['pk'])
+        if instance.author != request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
+    
 
 
-class PostUpdateView(UpdateView):
+class PostUpdateView(UpdateView,LoginRequiredMixin):
     model = Post
     form_class = PostForm
+    
+    def dispatch(self, request, *args, **kwargs):
+        instance = get_object_or_404(Post,pk = kwargs['pk'])
+        if instance.author != request.user:
+            raise PermissionDenied
+        return super().dispatch(request, *args, **kwargs)
 
 
 
