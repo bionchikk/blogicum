@@ -16,7 +16,6 @@ from .forms import PostForm
 
 
 
-
 class PostListView(ListView):
     model = Post
     ordering = 'id'
@@ -118,3 +117,6 @@ class PostDeleteView(DeleteView):
 class PostUpdateView(UpdateView):
     model = Post
     form_class = PostForm
+
+
+
