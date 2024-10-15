@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from core.models import PublishedModel,CreatedAtModel
+from django.urls import reverse
 
 
 User = get_user_model()
@@ -53,4 +54,8 @@ class Post (PublishedModel,CreatedAtModel):
 
     def __str__(self):
         return self.title
+
+    def get_absolute_urls(self):
+        return reverse('blog:post_detail',kwargs = {'pk': self.pk})
+
     

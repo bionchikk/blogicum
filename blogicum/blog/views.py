@@ -14,9 +14,7 @@ from .forms import PostForm
 
 
 
-class PostMixin:
-    model  = Post
-    success_url = reverse_lazy('blog:index')
+
 
 
 class PostListView(ListView):
@@ -95,7 +93,8 @@ def category_posts(request, category_slug):
 
 
 
-class PostCreateView(PostMixin,CreateView):
+class PostCreateView(CreateView):
+    model = Post
     form_class = PostForm
   
 
@@ -110,10 +109,12 @@ class PostCreateView(PostMixin,CreateView):
 
 
 
-class PostDeleteView(PostMixin,DeleteView):
-    pass    
+class PostDeleteView(DeleteView):
+    model = Post
+    success_url= reverse_lazy('blog:index')
 
 
 
-class PostUpdateView(PostMixin,UpdateView):
+class PostUpdateView(UpdateView):
+    model = Post
     form_class = PostForm
