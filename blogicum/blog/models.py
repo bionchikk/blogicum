@@ -59,3 +59,15 @@ class Post (PublishedModel,CreatedAtModel):
         return reverse('blog:post_detail',kwargs = {'pk': self.pk})
 
     
+
+
+class Comment(CreatedAtModel):
+    text = models.TextField('Текст комментария')
+    post = models.ForeignKey(Post,on_delete=models.CASCADE,related_name='comments',)
+    author = models.ForeignKey(User,on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('created_at',)
+
+    def get_absolute_url(self):
+        return reverse('blog:post_detail', kwargs={'pk': self.post_id})
